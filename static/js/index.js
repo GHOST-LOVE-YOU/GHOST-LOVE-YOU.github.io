@@ -131,6 +131,8 @@ function setupResultReferenceSwitcher() {
             selectCase(nextButton);
         });
     });
+
+    selectCase(buttons.find(button => button.getAttribute('aria-selected') === 'true') || buttons[0]);
 }
 
 setupResultReferenceSwitcher();
