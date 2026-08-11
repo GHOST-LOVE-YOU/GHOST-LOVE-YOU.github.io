@@ -402,6 +402,10 @@ body {
 
 .method-copy {
   color: var(--text-secondary);
+  width: 100%;
+  max-width: 768px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .results-section {
