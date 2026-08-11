@@ -90,53 +90,65 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// Video carousel autoplay when in view
-function setupVideoCarouselAutoplay() {
-    const carouselVideos = document.querySelectorAll('.results-carousel video');
-    
-    if (carouselVideos.length === 0) return;
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            const video = entry.target;
-            if (entry.isIntersecting) {
-                // Video is in view, play it
-                video.play().catch(e => {
-                    // Autoplay failed, probably due to browser policy
-                    console.log('Autoplay prevented:', e);
-                });
-            } else {
-                // Video is out of view, pause it
-                video.pause();
-            }
+function setupResultReferenceSwitcher() {
+    const buttons = Array.from(document.querySelectorAll('[data-result-case]'));
+    const panels = Array.from(document.querySelectorAll('.dance-results-grid[role="tabpanel"]'));
+
+    if (buttons.length === 0 || panels.length === 0) return;
+
+    function selectCase(button) {
+        const selectedCase = button.dataset.resultCase;
+
+        buttons.forEach(option => {
+            const isSelected = option === button;
+            option.classList.toggle('is-active', isSelected);
+            option.setAttribute('aria-selected', String(isSelected));
+            option.tabIndex = isSelected ? 0 : -1;
         });
-    }, {
-        threshold: 0.5 // Trigger when 50% of the video is visible
-    });
-    
-    carouselVideos.forEach(video => {
-        observer.observe(video);
+
+        panels.forEach(panel => {
+            const isSelected = panel.id === `result-case-${selectedCase}`;
+            panel.hidden = !isSelected;
+
+            panel.querySelectorAll('video').forEach(video => {
+                video.pause();
+                if (isSelected) {
+                    video.currentTime = 0;
+                }
+            });
+        });
+    }
+
+    buttons.forEach((button, index) => {
+        button.addEventListener('click', () => selectCase(button));
+        button.addEventListener('keydown', event => {
+            if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+            event.preventDefault();
+            const direction = event.key === 'ArrowRight' ? 1 : -1;
+            const nextButton = buttons[(index + direction + buttons.length) % buttons.length];
+            nextButton.focus();
+            selectCase(nextButton);
+        });
     });
 }
 
-$(document).ready(function() {
-    // Check for click events on the navbar burger icon
+document.addEventListener('DOMContentLoaded', setupResultReferenceSwitcher);
 
+document.addEventListener('DOMContentLoaded', function() {
     var options = {
 		slidesToScroll: 1,
 		slidesToShow: 1,
 		loop: true,
 		infinite: true,
-		autoplay: true,
-		autoplaySpeed: 5000,
+		autoplay: false,
     }
 
-	// Initialize all div with carousel class
-    var carousels = bulmaCarousel.attach('.carousel', options);
-	
-    bulmaSlider.attach();
-    
-    // Setup video autoplay for carousel
-    setupVideoCarouselAutoplay();
+    if (typeof bulmaCarousel !== 'undefined') {
+        bulmaCarousel.attach('.carousel', options);
+    }
 
-})
+    if (typeof bulmaSlider !== 'undefined') {
+        bulmaSlider.attach();
+    }
+});
