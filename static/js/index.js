@@ -133,22 +133,20 @@ function setupResultReferenceSwitcher() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', setupResultReferenceSwitcher);
+setupResultReferenceSwitcher();
 
-document.addEventListener('DOMContentLoaded', function() {
-    var options = {
+var carouselOptions = {
 		slidesToScroll: 1,
 		slidesToShow: 1,
 		loop: true,
 		infinite: true,
 		autoplay: false,
-    }
+};
 
-    if (typeof bulmaCarousel !== 'undefined') {
-        bulmaCarousel.attach('.carousel', options);
-    }
+if (typeof bulmaCarousel !== 'undefined') {
+    bulmaCarousel.attach('.carousel', carouselOptions);
+}
 
-    if (typeof bulmaSlider !== 'undefined') {
-        bulmaSlider.attach();
-    }
-});
+if (typeof bulmaSlider !== 'undefined') {
+    bulmaSlider.attach();
+}
