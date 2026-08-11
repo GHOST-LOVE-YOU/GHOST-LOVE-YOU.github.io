@@ -135,6 +135,22 @@ function setupResultReferenceSwitcher() {
     selectCase(buttons.find(button => button.getAttribute('aria-selected') === 'true') || buttons[0]);
 }
 
+function resetVideosToFirstFrame() {
+    document.querySelectorAll('video').forEach(video => {
+        const reset = () => {
+            video.pause();
+            video.currentTime = 0;
+        };
+
+        if (video.readyState >= 1) {
+            reset();
+        } else {
+            video.addEventListener('loadedmetadata', reset, { once: true });
+        }
+    });
+}
+
+resetVideosToFirstFrame();
 setupResultReferenceSwitcher();
 
 var carouselOptions = {
