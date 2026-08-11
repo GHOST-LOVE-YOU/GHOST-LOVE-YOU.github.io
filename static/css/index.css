@@ -124,6 +124,11 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+.visual-container {
+  width: 100%;
+  max-width: 1152px !important;
+}
+
 .teaser-image {
   display: block;
   width: 100%;
