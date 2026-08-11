@@ -146,7 +146,3 @@ var carouselOptions = {
 if (typeof bulmaCarousel !== 'undefined') {
     bulmaCarousel.attach('.carousel', carouselOptions);
 }
-
-if (typeof bulmaSlider !== 'undefined') {
-    bulmaSlider.attach();
-}
