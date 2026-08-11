@@ -278,6 +278,11 @@ body {
   padding: 1rem 0;
 }
 
+/* Keep uninitialized carousels usable while their script is loading. */
+.results-carousel > .item:not(:first-child) {
+  display: none;
+}
+
 .results-carousel .item {
   margin: 1rem;
   overflow: hidden;
