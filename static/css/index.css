@@ -302,10 +302,24 @@ body {
 
 .results-carousel .item img,
 .results-carousel video {
+  display: block;
   margin: 0;
   border-radius: var(--border-radius);
   width: 100%;
   height: auto;
+}
+
+.same-music-case video,
+.baseline-case video {
+  aspect-ratio: 62 / 25;
+  object-fit: contain;
+  background: #000;
+}
+
+.ablation-case video {
+  aspect-ratio: 64 / 27;
+  object-fit: contain;
+  background: #000;
 }
 
 .results-carousel .subtitle {
